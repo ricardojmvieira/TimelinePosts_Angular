@@ -1,0 +1,10 @@
+<div class="post-input">
+  <div>
+    <img class="post-input-pic" src="../../../assets/profile-pic.png" alt="profile-pic">
+    <input class="post-input-text" type="text" required placeholder="what's happening?" [(ngModel)]="postInput" value={{postInput}} maxlength="130" />
+  </div>
+  <div class="post-input-footer">
+    {{postInput.length == 0 ? '' : 130 - postInput.length}}
+    <button class="btn btn-primary post-input-btn" (click)="addPost()">Post</button>
+  </div>
+</div>
