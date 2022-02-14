@@ -8,15 +8,15 @@
   display: flex;
 }
 .post-info-pic{
-  width: 12%;
-  height: 12%;
+  width: 10%;
+  height: 10%;
   float: left;
 }
 
 .posts-info-text{
   display: inline;
   padding: 10px;
-  width: 80%;
+  width: 85%;
 }
 
 .posts-info-text__user{

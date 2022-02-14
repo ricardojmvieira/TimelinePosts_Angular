@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PostService } from '../../services/post.service';
+import { ApiService } from '../../services/api.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-post-input',
@@ -8,17 +10,21 @@ import { PostService } from '../../services/post.service';
 })
 export class PostInputComponent implements OnInit {
   postInput: string;
+  data:any;
 
-  constructor(private postService: PostService) {
+  constructor(private postService: PostService,private apiService: ApiService,private http:HttpClient) {
     this.postInput = '';
   }
 
   ngOnInit(): void {
   }
 
-  //calls postService to add a new post
+  //calls apiService to add a new post
   addPost(): void{
-    this.postService.addPost(this.postInput);
+    //this.postService.addPost(this.postInput);
+    this.apiService.addPost(this.postInput).subscribe();
     this.postInput = '';
+    window.location.reload();
   }
+
 }

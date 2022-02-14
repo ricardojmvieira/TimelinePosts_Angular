@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Post } from '../../classes/post';
 import { PostService } from '../../services/post.service';
+import { ApiService } from '../../services/api.service';
 import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
@@ -16,7 +17,7 @@ export class PostsComponent implements OnInit {
   date!: string;
   currentDate!: Date;
 
-  constructor(private postService: PostService, public modalService: NgbModal, private datePipe: DatePipe) { }
+  constructor(private postService: PostService,private apiService: ApiService, public modalService: NgbModal, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.currentDate = new Date();
@@ -32,10 +33,10 @@ export class PostsComponent implements OnInit {
       this.date = this.datePipe.transform(this.post.time, 'dd-MM-yy hh:mm a') || '';
     }else{
       if(diff == 0){
-        this.date = 'now'
+        this.date = 'now';
       }else{
         let seconds = diff / 1000;
-        this.date = seconds + ' seconds ago'
+        this.date = seconds + ' seconds ago';
       }
     }
     return this.date;
@@ -45,7 +46,10 @@ export class PostsComponent implements OnInit {
   open(): void{
     const modalRef = this.modalService.open(ModalDeleteComponent);
     modalRef.result.then(() => {
-      this.postService.deletePost(this.post.id);
+      //this.postService.deletePost(this.post.id);
+      this.apiService.deletePost(this.post.id).subscribe(() =>{
+        window.location.reload();
+      });
     });
   }
 }
