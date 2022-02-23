@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PostInputComponent } from './components/post-input/post-input.component';
-import { PostService } from './services/post.service';
 import { PostsComponent } from './components/posts/posts.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDeleteComponent } from './components/modal-delete/modal-delete.component';
@@ -24,7 +23,7 @@ import { ApiService } from './services/api.service';
   imports: [
     BrowserModule,FormsModule, NgbModule, HttpClientModule
   ],
-  providers: [PostService, DatePipe, ApiService],
+  providers: [DatePipe, ApiService],
   bootstrap: [AppComponent],
   entryComponents: [ ModalDeleteComponent ]
 })

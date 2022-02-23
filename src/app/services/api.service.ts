@@ -14,24 +14,24 @@ export class ApiService {
   constructor(private http:HttpClient) { }
 
   //get posts from api
-  getPosts(): Observable<any>{
-    return this.http.get(this.url);
+  getPosts(): Observable<Post[]>{
+    return this.http.get<Post[]>(this.url);
   }
 
   //receives data, create and insert a new object to the database
-  addPost(text: string): Observable<any>{
+  addPost(text: string): Observable<Post[]>{
     if(text != ''){
      this.date = new Date();
      let post = new Post(this.index, text, String(this.date));
      this.index++;
-     return this.http.post(this.url,post);
+     return this.http.post<Post[]>(this.url,post);
     }
-    return this.http.post(this.url,null);
+    return this.http.post<Post[]>(this.url,null);
   }
 
   //receives an id and remove the associated post from the database
-  deletePost(id: number): Observable<any>{
-    return this.http.delete(this.url + '/'+ id);
+  deletePost(id: number): Observable<Post[]>{
+    return this.http.delete<Post[]>(this.url + '/'+ id);
   }
 
 }

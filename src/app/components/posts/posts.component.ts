@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Post } from '../../classes/post';
-import { PostService } from '../../services/post.service';
-import { ApiService } from '../../services/api.service';
 import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
@@ -14,10 +12,11 @@ import { DatePipe } from '@angular/common';
 export class PostsComponent implements OnInit {
 
   @Input() public post!: Post;
+  @Output() delete: EventEmitter<number> = new EventEmitter();
   date!: string;
   currentDate!: Date;
 
-  constructor(private postService: PostService,private apiService: ApiService, public modalService: NgbModal, private datePipe: DatePipe) { }
+  constructor(public modalService: NgbModal, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.currentDate = new Date();
@@ -42,14 +41,11 @@ export class PostsComponent implements OnInit {
     return this.date;
   }
 
-  //Open a delete modal confirmation and delete on right result
-  open(): void{
+  //Open a delete modal confirmation and emit the post id on right result
+  open(post:Post): void{
     const modalRef = this.modalService.open(ModalDeleteComponent);
     modalRef.result.then(() => {
-      //this.postService.deletePost(this.post.id);
-      this.apiService.deletePost(this.post.id).subscribe(() =>{
-        window.location.reload();
-      });
+        this.delete.emit(post.id);
     });
   }
 }

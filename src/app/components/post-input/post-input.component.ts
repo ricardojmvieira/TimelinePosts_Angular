@@ -1,7 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { PostService } from '../../services/post.service';
-import { ApiService } from '../../services/api.service';
-import { HttpClient } from '@angular/common/http';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-post-input',
@@ -9,22 +6,22 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./post-input.component.css']
 })
 export class PostInputComponent implements OnInit {
+
+  @Output() add: EventEmitter<string> = new EventEmitter();
   postInput: string;
   data:any;
 
-  constructor(private postService: PostService,private apiService: ApiService,private http:HttpClient) {
+  constructor() {
     this.postInput = '';
   }
 
   ngOnInit(): void {
   }
 
-  //calls apiService to add a new post
+  //emit the text to add a new post
   addPost(): void{
-    //this.postService.addPost(this.postInput);
-    this.apiService.addPost(this.postInput).subscribe();
+    this.add.emit(this.postInput);
     this.postInput = '';
-    window.location.reload();
   }
 
 }

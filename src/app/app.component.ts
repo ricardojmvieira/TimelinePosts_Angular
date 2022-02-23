@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from './services/post.service';
 import { ApiService } from './services/api.service';
 import { Post } from './classes/post';
 
@@ -12,11 +11,25 @@ export class AppComponent implements OnInit {
   title = 'Timeline-Angular_RicardoVieira';
   posts!:Post[];
 
-  constructor(public postService: PostService, public apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   ngOnInit(){
     this.apiService.getPosts().subscribe(result =>{
       this.posts = result;
     })
+  }
+
+  //receive an id, calls apiService to delete the post and update posts
+  deletePost(id: number){
+    this.apiService.deletePost(id).subscribe(() => {
+      this.posts = this.posts.filter((post) => post.id != id);
+    });
+  }
+
+  //receive text, calls apiService to add a new post and update posts
+  addPost(text: string){
+    this.apiService.addPost(text).subscribe(() => {
+      this.ngOnInit();
+    });
   }
 }
